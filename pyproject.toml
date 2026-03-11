@@ -1,18 +1,57 @@
 [tool.poetry]
-name = "local-chatbot"
-version = "0.1.0"
-description = "A chatbot with a local database on chroma, local LLM with llama 3 and Ollama and Langchain as a framework"
-authors = ["Alarcon7a"]
-readme = "README.md"
+name = "nao-agente"
+version = "0.2.0"
+description = "A local RAG chatbot with Chroma, Ollama (Llama 3), Semantic Chunking, and faster-whisper for audio-to-text"
+authors = ["Dax161"]
+
+# Evita instalar el proyecto como paquete, solo maneja dependencias
+package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
-langchain = "^0.1.17"
-langchain-community = "^0.0.37"
-PyMuPDF = "^1.24.2"
+python = ">=3.11,<3.13"
+
+# ==== Lenguajes y herramientas de LangChain ====
+langchain = "^0.3.18"
+langchain-core = "^0.3.34"
+langchain-community = "^0.3.17"
+langchain-text-splitters = "^0.3.6"
+langchain-experimental = "^0.3.4"
+
+# ==== Vector store y embeddings locales ====
 chromadb = "^0.5.0"
 fastembed = "^0.2.7"
+
+# ==== Procesamiento de PDFs ====
+PyMuPDF = "^1.24.2"
+
+# ==== Conexión con Ollama ====
+ollama = "^0.2.1"
+
+# ==== Audio-to-text con faster-whisper (CPU por defecto, sin Triton) ====
+faster-whisper = "^0.10.1"
+
+# ==== PyTorch CPU por defecto ====
+torch = "^2.8.0"
+torchaudio = "^2.8.0"
+
+# ==== Solo para GPU (CUDA) ====
+# Si tu amiga quiere usar GPU, comentar las 2 líneas de arriba
+# y descomentar las siguientes junto con el bloque [[tool.poetry.source]]:
+# torch = { version = "2.8.0+cu121", source = "pytorch-cu121" }
+# torchaudio = { version = "2.8.0+cu121", source = "pytorch-cu121" }
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# ==== Fuente para GPU (CUDA) ====
+# [[tool.poetry.source]]
+# name = "pytorch-cu121"
+# url = "https://download.pytorch.org/whl/cu121"
+# priority = "explicit"
+
+# ========================================
+# NOTA:
+# - En Windows, faster-whisper funciona perfectamente en CPU y GPU sin Triton.
+# - Para activar GPU, tu amiga solo necesita descomentar la sección de PyTorch GPU.
+# - Triton NO se instalará nunca en Windows, evitando errores de instalación.
